@@ -4,32 +4,76 @@ function getComputerChoice (){
     return computerSelection;
 }
 
-function play(playerSelection, computerSelection){
+let playerScore = 0;
+let computerScore = 0;
 
+
+function playRound(playerSelection, computerSelection){
+    
+    let result; 
+     
     if(playerSelection === computerSelection){
-        return "It's a tie!";
+        result = "It's a tie!!'";
     }
     else if(
         (playerSelection.toLowerCase() === 'rock' && computerSelection.toLowerCase() === 'scissor') ||
         (playerSelection.toLowerCase() === 'paper' && computerSelection.toLowerCase() === 'rock') ||
         (playerSelection.toLowerCase() === 'scissor' && computerSelection.toLowerCase() === 'paper')
     ){
-        return "You Win!";
+        result = "You WIN!";
+        playerScore++;
+
     }
     else{
-        return "You Lose!";
+        result = "You LOSE!";
+        computerScore++;
     }
+
+
+    updateScore();
+    updateResult(result);
+
+    if (playerScore === 5 || computerScore === 5) {
+        if (playerScore === 5) {
+            alert("You won the game");
+        } else {
+            alert("You lose the game");
+        }
+    }
+    
 }
 
-const playerSelection = prompt("Enter your choice");
-const computerSelection = getComputerChoice();
+const but1 = document.querySelector("#but1");
+const but2 = document.querySelector("#but2");
+const but3 = document.querySelector("#but3");
 
-function playGame(){
-    console.log(play(playerSelection, computerSelection));
-    console.log(play(playerSelection, computerSelection));
-    console.log(play(playerSelection, computerSelection));
-    console.log(play(playerSelection, computerSelection));
-    console.log(play(playerSelection, computerSelection));
+but1.addEventListener('click', fun => (
+    playRound('rock',getComputerChoice())
+));
+but2.addEventListener('click', fun => (
+    playRound('paper',getComputerChoice())
+));
+but3.addEventListener('click', fun => (
+    playRound('scissor',getComputerChoice())
+));
+
+const result = document.querySelector("#result");
+
+function updateResult(resultText){
+    const para = document.createElement("p");
+    para.textContent = resultText;
+    result.appendChild(para);
 }
 
-playGame();
+
+const playerScoreDisplay = document.querySelector("#playerScore");
+const computerScoreDisplay = document.querySelector("#computerScore");
+
+
+function updateScore(){
+    playerScoreDisplay.textContent = `Player Score : ${playerScore}`;
+    computerScoreDisplay.textContent = `Computer Score : ${computerScore}`;
+}
+
+
+
